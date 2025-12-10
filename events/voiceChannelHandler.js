@@ -31,7 +31,7 @@ function setupIntervals(client) {
       const now = Date.now();
       const outdatedChannels = await TemporaryChannelModel.find({
         isTemporary: true,
-        createdAt: { $lt: new Date(now - 6 * 60 * 60 * 1000) }
+        createdAt: { $lt: new Date(now - 48 * 60 * 60 * 1000) }
       });
 
       for (const channel of outdatedChannels) {
@@ -85,7 +85,7 @@ const sendOrUpdateCentralizedEmbed = async (client, guild) => {
   try {
     const existingControl = await CentralizedControlModel.findOne({ guildId: guild.id });
     
-
+    // Enhanced embed with better styling and organization
     const embed = new EmbedBuilder()
       .setAuthor({
         name: "Dynamic Voice Channel Manager",
@@ -97,11 +97,11 @@ const sendOrUpdateCentralizedEmbed = async (client, guild) => {
       .addFields([
         {
           name: '🔒 Privacy Controls',
-          value: `> \`🔒\` Lock channel - Prevent others from joining\n> \`🔓\` Unlock channel - Allow others to join\n> \`👻\` Hide channel - Make it invisible to others\n> \`👁️\` Show channel - Make it visible to everyone`
+          value: `> \`🔒\` Khóa kênh - Prevent others from joining\n> \`🔓\` Khóa Kênh - Allow others to join\n> \`👻\` Ẩn Kênh - Make it invisible to others\n> \`👁️\` Hiển Thị Kênh - Make it visible to everyone`
         },
         {
           name: '⚙️ Channel Settings',
-          value: `> \`✏️\` Rename - Change channel name/description\n> \`👑\` Transfer - Give ownership to another user\n> \`🧢\` User Limit - Adjust maximum capacity\n> \`🔊\` Bitrate - Adjust audio quality`
+          value: `> \`✏️\` Đổi Tên - Change channel name/description\n> \`👑\` Chuyển quyền - Give ownership to another user\n> \`🧢\` User Limit - Adjust maximum capacity\n> \`🔊\` Bitrate - Adjust audio quality`
         },
         {
           name: '🛠️ Moderation Tools',
@@ -112,7 +112,7 @@ const sendOrUpdateCentralizedEmbed = async (client, guild) => {
       .setFooter({ text: 'Your voice channel will automatically delete after 6 hours of inactivity' })
       .setTimestamp();
 
-    
+    // Row 1: Privacy controls
     const row1 = new ActionRowBuilder()
       .addComponents(
         new ButtonBuilder()
@@ -133,7 +133,7 @@ const sendOrUpdateCentralizedEmbed = async (client, guild) => {
           .setStyle(ButtonStyle.Primary)
       );
 
-   
+    // Row 2: Settings and controls
     const row2 = new ActionRowBuilder()
       .addComponents(
         new ButtonBuilder()
@@ -154,7 +154,7 @@ const sendOrUpdateCentralizedEmbed = async (client, guild) => {
           .setStyle(ButtonStyle.Success)
       );
 
-  
+    // Row 3: Additional controls
     const row3 = new ActionRowBuilder()
       .addComponents(
         new ButtonBuilder()
@@ -248,7 +248,7 @@ const checkOutdatedCentralizedControls = async (client) => {
 };
 
 const handleVoiceStateUpdate = async (client, oldState, newState) => {
-  if (newState.member.user.bot) return;
+  // Handle user leaving a temporary voice channel
   if (oldState.channelId && !newState.channelId) {
     const oldChannel = oldState.channel;
     const voiceChannel = await TemporaryChannelModel.findOne({ channelId: oldChannel.id, isTemporary: true });
@@ -263,10 +263,10 @@ const handleVoiceStateUpdate = async (client, oldState, newState) => {
     }
   }
 
-
+  // Don't proceed if the user is just moving within the same channel
   if (oldState.channelId === newState.channelId) return;
 
-  
+  // Handle user joining the creation channel
   const guildId = newState.guild.id;
   const settings = config.voiceChannelSetup[guildId];
   if (!settings || !settings.status) return;
@@ -274,12 +274,13 @@ const handleVoiceStateUpdate = async (client, oldState, newState) => {
   const { voiceChannelId, allowedRoleIds } = settings;
   const member = newState.member;
 
+  // Check if user joined the main voice channel
   if (newState.channelId === voiceChannelId) {
- 
+    // Check if role is required and if user has the required role
     if (allowedRoleIds && allowedRoleIds.length > 0) {
       const hasAllowedRole = member.roles.cache.some(role => allowedRoleIds.includes(role.id));
       if (!hasAllowedRole) {
-        
+        // If user doesn't have the required role, move them back or disconnect them
         if (oldState.channelId) {
           try {
             await member.voice.setChannel(oldState.channelId);
@@ -292,16 +293,16 @@ const handleVoiceStateUpdate = async (client, oldState, newState) => {
         try {
           await member.send('You do not have the required role to create a voice channel.');
         } catch (dmError) {
-
+          // Ignore if we can't DM the user
         }
         return;
       }
     }
 
     try {
-
+      // Create new voice channel
       const newChannel = await newState.guild.channels.create({
-        name: `${member.user.username}'s channel`,
+        name: `ミ🥭・${member.user.username}`,
         type: ChannelType.GuildVoice,
         parent: newState.channel.parentId,
         permissionOverwrites: [
@@ -326,12 +327,12 @@ const handleVoiceStateUpdate = async (client, oldState, newState) => {
         userId: member.user.id,
         createdAt: new Date(),
         isTemporary: true,
-        name: `${member.user.username}'s channel`,
+        name: `ミ📻・${member.user.username}`,
         description: ''
       });
 
      
-      deleteChannelAfterTimeout(client, newChannel.id, 6 * 60 * 60 * 1000);
+      deleteChannelAfterTimeout(client, newChannel.id, 48 * 60 * 60 * 1000);
     } catch (error) {
       console.error('Error creating voice channel:', error);
     }
@@ -401,6 +402,7 @@ const handleButtonInteraction = async (interaction) => {
         break;
 
       case 'edit_channel':
+        // Create and show a modal for editing channel name/description
         const modal = new ModalBuilder()
           .setCustomId(`edit_channel_modal_${channelId}`)
           .setTitle('Edit Voice Channel');
@@ -431,6 +433,7 @@ const handleButtonInteraction = async (interaction) => {
         break;
 
       case 'disconnect_member':
+        // Show a list of members to disconnect
         if (currentVoiceChannel.members.size <= 1) {
           return interaction.reply({ content: 'There are no other members to disconnect.', ephemeral: true });
         }
@@ -687,7 +690,7 @@ const handleSelectMenu = async (interaction) => {
     }
   }
   
-
+  // Handle ownership transfer selection
   if (interaction.customId.startsWith('transfer_to_')) {
     const channelId = interaction.customId.replace('transfer_to_', '');
     const newOwnerId = interaction.values[0];
@@ -723,9 +726,9 @@ const handleSelectMenu = async (interaction) => {
     });
   }
 
-
+  // Handle disconnect member selection
   if (interaction.customId.startsWith('disconnect_select_')) {
- 
+    // Your existing disconnect member code would go here
   }
 };
 
