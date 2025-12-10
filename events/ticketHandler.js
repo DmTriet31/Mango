@@ -56,7 +56,7 @@ async function getConfig(force = false) {
 module.exports = (client) => {
   
     client.on('ready', async () => {
-        //console.log('Initializing ticket system...');
+        console.log('Initializing ticket system...');
         await loadConfig();
         
      
@@ -331,8 +331,7 @@ async function handleTicketClose(interaction, client) {
 
 
     try {
-        const { attachment, fileName } = await generateTranscript(interaction.channel, client);
-
+        const transcriptAttachment = await generateTranscript(interaction.channel, client);
         
    
         const ticketOwner = await client.users.fetch(userId).catch(() => null);
@@ -343,24 +342,17 @@ async function handleTicketClose(interaction, client) {
                 .setDescription(`Your ticket in **${guild.name}** has been closed.`)
                 .setTimestamp()
                 .setFooter({ text: 'Thanks for using our support system!', iconURL: ticketIcons.modIcon });
-        
+
             try {
-                const dmMessage = await ticketOwner.send({
+                await ticketOwner.send({
                     content: 'Here is your ticket transcript:',
                     embeds: [dmEmbed],
-                    files: [attachment]
+                    files: [transcriptAttachment]
                 });
-        
-                const fileUrl = dmMessage.attachments.first()?.url;
-                if (fileUrl) {
-                    await ticketOwner.send(`🔗 **View Transcript**: ${fileUrl}`);
-                }
-        
             } catch (err) {
                 console.warn(`Could not DM user ${ticketOwner.tag}:`, err.message);
             }
         }
-        
 
        
         if (config.transcriptChannelId) {
@@ -375,20 +367,14 @@ async function handleTicketClose(interaction, client) {
                         { name: 'Original Owner', value: ticketOwner?.tag || 'Unknown', inline: true }
                     )
                     .setTimestamp();
-        
-                const logMsg = await logChannel.send({
+                
+                await logChannel.send({ 
                     content: `📩 Transcript from ticket ${interaction.channel.name}`,
                     embeds: [logEmbed],
-                    files: [attachment]
+                    files: [transcriptAttachment] 
                 });
-        
-                const fileUrl = logMsg.attachments.first()?.url;
-                if (fileUrl) {
-                    await logChannel.send(`🔗 **View Transcript**: ${fileUrl}`);
-                }
             }
         }
-        
 
         await interaction.followUp({ 
             content: '✅ Ticket closing in 5 seconds...',
@@ -500,48 +486,3 @@ async function cleanupStaleTickets(client) {
         }
     }
 }
-module.exports.reloadTicketConfig = async function (serverId, client) {
-    console.log(`[🔁] Reloading ticket config for server: ${serverId}`);
-    const updatedConfig = await TicketConfig.findOne({ serverId });
-
-    if (!updatedConfig) {
-        console.warn(`[⚠️] No config found for server ${serverId}`);
-        return;
-    }
-
- 
-    configCache[serverId] = {
-        ticketChannelId: updatedConfig.ticketChannelId,
-        transcriptChannelId: updatedConfig.transcriptChannelId,
-        adminRoleId: updatedConfig.adminRoleId,
-        status: updatedConfig.status,
-        categoryId: updatedConfig.categoryId,
-        ownerId: updatedConfig.ownerId
-    };
-    lastConfigLoad = Date.now();
-
-  
-    const guild = client.guilds.cache.get(serverId);
-    if (!guild) return;
-
-    const ticketChannel = guild.channels.cache.get(updatedConfig.ticketChannelId);
-    if (!ticketChannel) return;
-
-    try {
-        const messages = await ticketChannel.messages.fetch({ limit: 10 });
-        const alreadyHasEmbed = messages.some(m =>
-            m.author.bot &&
-            m.embeds.length > 0 &&
-            m.embeds[0].data?.author?.name === "Welcome to Ticket Support"
-        );
-
-        if (!alreadyHasEmbed) {
-            await sendTicketEmbed(ticketChannel);
-            console.log(`[✅] Ticket embed sent in channel ${ticketChannel.id}`);
-        } else {
-            console.log(`[ℹ️] Embed already present in ${ticketChannel.id}`);
-        }
-    } catch (err) {
-        console.error(`[❌] Error refreshing ticket embed for ${serverId}:`, err);
-    }
-};
