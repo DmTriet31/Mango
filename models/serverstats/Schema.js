@@ -26,14 +26,14 @@ const serverStatsSchema = new mongoose.Schema({
       required: true,
       default: function() {
         const formats = {
-          members: "👥 Members: {count}",
-          bots: "🤖 Bots: {count}",
-          textChannels: "💬 Text Channels: {count}",
-          voiceChannels: "🔊 Voice Channels: {count}",
-          categories: "📁 Categories: {count}",
-          roles: "🏷️ Roles: {count}",
-          date: "📅 Date: {count}",
-          all: "📊 Total Members: {count}"
+          members: "୨୧・🥭﹕𝙢𝙚𝙢𝙗𝙚𝙧: {count}",
+          bots: "୨୧・🤖﹕𝙗𝙤𝙩𝙨: {count}",
+          textChannels: "୨୧・💬 Text Channels: {count}",
+          voiceChannels: "୨୧・🔊 Voice Channels: {count}",
+          categories: "୨୧・📁 Categories: {count}",
+          roles: "୨୧・🏷️ Roles: {count}",
+          date: "୨୧・📅 Date: {count}",
+          all: "୨୧・🥭﹕𝘼𝙡𝙡 𝙢𝙚𝙢𝙗𝙚𝙧 {count}"
         };
         return formats[this.type] || `${this.type}: {count}`;
       }
@@ -186,4 +186,5 @@ serverStatsSchema.pre('save', function(next) {
 });
 
 // Export the model
+
 module.exports = mongoose.model('ServerStats', serverStatsSchema);
