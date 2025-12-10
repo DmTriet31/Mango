@@ -417,7 +417,7 @@ module.exports = {
             
             homeContainer.addTextDisplayComponents(
                 new TextDisplayBuilder().setContent(
-                    `# ✨ ALL IN ONE BOT - @v 1.4.1.0\n` +
+                    `# ✨ Mango \n` +
                       `## THE DISCORD OPERATING SYSTEM\n\n` +
                     `Your comprehensive Discord bot with **${totalStats.total.toLocaleString()}+ commands**`
                 )
@@ -548,8 +548,8 @@ module.exports = {
                 developerContainer.addTextDisplayComponents(
                     new TextDisplayBuilder().setContent(
                         pageData.isChunked 
-                            ? `Developed By GlaceYT • https://glaceyt.com`
-                            : `Developed By GlaceYT • https://glaceyt.com`
+                            ? `Mango`
+                            : `Mango`
                     )
                 );
                 displayComponents.push(developerContainer);
@@ -646,15 +646,15 @@ module.exports = {
             new ButtonBuilder()
                 .setLabel('Support Server')
                 .setStyle(ButtonStyle.Link)
-                .setURL('https://discord.gg/xQF9f9yUEM'),
+                .setURL('https://discord.gg/eKhkUgXcqU'),
             new ButtonBuilder()
                 .setLabel('GitHub')
                 .setStyle(ButtonStyle.Link)
-                .setURL('https://github.com/GlaceYT'),
+                .setURL('https://github.com/DmTriet31'),
             new ButtonBuilder()
                 .setLabel('Documentation')
                 .setStyle(ButtonStyle.Link)
-                .setURL('https://glaceyt.com/discord/All-In-One-Documentation')
+                .setURL('https://github.com/DmTriet31/Mango')
         );
 
         return [selectMenu, navButtons, linkButtons];
@@ -721,19 +721,3 @@ module.exports = {
         };
     }
 };
-/*
- ██████╗ ██╗      █████╗  ██████╗███████╗██╗   ██╗████████╗
-██╔════╝ ██║     ██╔══██╗██╔════╝██╔════╝╚██╗ ██╔╝╚══██╔══╝
-██║  ███╗██║     ███████║██║     █████╗   ╚████╔╝    ██║   
-██║   ██║██║     ██╔══██║██║     ██╔══╝    ╚██╔╝     ██║   
-╚██████╔╝███████╗██║  ██║╚██████╗███████╗   ██║      ██║   
- ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝   ╚═╝      ╚═╝   
-
--------------------------------------
-📡 Discord : https://discord.gg/xQF9f9yUEM
-🌐 Website : https://glaceyt.com
-🎥 YouTube : https://youtube.com/@GlaceYT
-✅ Verified | 🧩 Tested | ⚙️ Stable
--------------------------------------
-> © 2025 GlaceYT.com | All rights reserved.
-*/
