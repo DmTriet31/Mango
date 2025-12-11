@@ -87,7 +87,7 @@ function truncateUsername(username, maxLength = 15) {
         embed.setDescription(replacePlaceholders(config.description, member, guild, memberCount));
     } else if (!config.title) {
         // If no title or description, add a default description
-        embed.setDescription(`${user.username} has left the server.`);
+        embed.setDescription(`Con quỷ ${user.username} Đã rời bỏ chúng ta.`);
     } else {
         // If title exists but no description, set an empty space to avoid validation error
         embed.setDescription(' ');
@@ -295,4 +295,5 @@ module.exports = async function memberLeaveHandler(client) {
             console.error('❌ Error in leave system:', error);
         }
     });
+
 };
