@@ -32,8 +32,8 @@ const leaveSettingsSchema = new mongoose.Schema({
     
     // Channel Leave Embed Configuration
     channelEmbed: {
-        title: { type: String, default: 'Goodbye!' },
-        description: { type: String, default: '{member} has left our server. We now have **{membercount}** members.' },
+        title: { type: String, default: '୨ <:RL_Lounge_bow:1376217725994663957> ୧〃 ➜ *New Leave*!' },
+        description: { type: String, default: 'Con quỷ {member} đã ra đi. Còn **{membercount}** Con quỷ.' },
         color: { type: String, default: '#ff4757' },
         author: {
             name: { type: String, default: '' },
@@ -69,7 +69,7 @@ const leaveSettingsSchema = new mongoose.Schema({
     // DM Leave Embed Configuration
     dmEmbed: {
         title: { type: String, default: 'Thanks for being part of our community!' },
-        description: { type: String, default: 'Goodbye {username}! Thanks for being part of {servername}. You\'re always welcome back!' },
+        description: { type: String, default: 'Tại Sao {username} lại bỏ chúng tôi.{servername}. https://discord.gg/hZM6zS9Km7' },
         color: { type: String, default: '#ff4757' },
         footer: {
             text: { type: String, default: 'Hope to see you again!' },
@@ -86,5 +86,6 @@ const leaveSettingsSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
 
 module.exports = mongoose.model('LeaveSettings', leaveSettingsSchema);
