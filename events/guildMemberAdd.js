@@ -37,7 +37,7 @@ module.exports = (client) => {
       new ButtonBuilder()
         .setLabel('.gg/Mango')
         .setStyle(ButtonStyle.Link)
-        .setURL('https://discord.com/channels/1360197467261636750/1444648352905166849')
+        .setURL('https://cdn.discordapp.com/attachments/1360360505717297270/1437183308130684979/tguj68.gif?ex=6969fc82&is=6968ab02&hm=d1b7152a684cc691b415813abd34e5fa8bdb253731b8354b565da287a8e8fc75')
         .setEmoji('<a:RL_love:1444697294761889852>'),
 
       new ButtonBuilder()
