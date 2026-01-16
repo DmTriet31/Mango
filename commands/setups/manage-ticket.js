@@ -40,10 +40,10 @@ module.exports = {
                         .setDescription('Type of ticket to create')
                         .setRequired(true)
                         .addChoices(
-                            { name: 'Support', value: 'support' },
-                            { name: 'Suggestion', value: 'suggestion' },
+                            { name: 'Hỗ Trợ', value: 'support' },
+                            { name: 'Gơi Ý Đóng Góp', value: 'suggestion' },
                             { name: 'Feedback', value: 'feedback' },
-                            { name: 'Report', value: 'report' }
+                            { name: 'Tố Cáo', value: 'report' }
                         ))
                 .addUserOption(option =>
                     option.setName('user')
