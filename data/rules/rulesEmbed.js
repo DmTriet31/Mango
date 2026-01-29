@@ -10,7 +10,7 @@ const ruleEmbeds = {
         ),
 
     spam: new EmbedBuilder()
-        .setColor("Red")
+        .setColor("FF0000")
         .setTitle("🚫 Không spam")
         .setDescription(
             "• Không spam tin nhắn, emoji, sticker.\n" +
@@ -19,7 +19,7 @@ const ruleEmbeds = {
         ),
 
     content: new EmbedBuilder()
-        .setColor("DarkPurple")
+        .setColor("5865F2")
         .setTitle("📌 Nội dung phù hợp")
         .setDescription(
             "• Cấm nội dung 18+, NSFW, bạo lực, chính trị nhạy cảm.\n" +
@@ -27,7 +27,7 @@ const ruleEmbeds = {
         ),
 
     channels: new EmbedBuilder()
-        .setColor("Blue")
+        .setColor("FFA500")
         .setTitle("📂 Đúng kênh – đúng mục đích")
         .setDescription(
             "• Chat đúng chủ đề của từng kênh.\n" +
@@ -35,7 +35,7 @@ const ruleEmbeds = {
         ),
 
     staff: new EmbedBuilder()
-        .setColor("Orange")
+        .setColor("FF0000")
         .setTitle("🛡️ Tôn trọng Staff")
         .setDescription(
             "• Tuân theo hướng dẫn và quyết định của Admin / Mod.\n" +
