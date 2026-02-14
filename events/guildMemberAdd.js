@@ -49,7 +49,7 @@ module.exports = (client) => {
     let sentMessage;
     try {
       sentMessage = await channel.send({
-        content: `🎉 Chào mừng <@${member.id}> đã đến với server, <@&1444648190681944087> có member mới nè!`,
+        content: `<:MG_cong1:1472229467119288410> <@${member.id}> đến với server, <@&1444648190681944087> có member mới nè!`,
         embeds: [embed],
         components: [row]
       });
