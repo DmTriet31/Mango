@@ -32,7 +32,7 @@ const leaveSettingsSchema = new mongoose.Schema({
     
     // Channel Leave Embed Configuration
     channelEmbed: {
-        title: { type: String, default: '୨ <:RL_Lounge_bow:1376217725994663957> ୧〃 ➜ *New Leave*!' },
+        title: { type: String, default: '<:MG_tru1:1472229542658576384>〃 ➜ *New Leave*!' },
         description: { type: String, default: 'Con quỷ {member} đã ra đi. Còn **{membercount}** Con quỷ.' },
         color: { type: String, default: '#ff4757' },
         author: {
@@ -89,3 +89,4 @@ const leaveSettingsSchema = new mongoose.Schema({
 
 
 module.exports = mongoose.model('LeaveSettings', leaveSettingsSchema);
+
