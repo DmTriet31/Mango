@@ -166,7 +166,7 @@ client.once('ready', async () => {
 // LOGIN
 // =======================
 client.login(process.env.TOKEN || config.token)
-  .then(() => console.log("[INFO] Discord login called"))
+  .then(() => console.log("[INFO] Discord login success!"))
   .catch(err => console.error("[ERROR] Discord login failed:", err));
 
 module.exports = client;
