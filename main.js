@@ -1,3 +1,4 @@
+console.log("BOT STARTING...");
 const { Client, GatewayIntentBits, Collection, REST, Routes } = require('discord.js');
 require('dotenv').config();
 const axios = require('axios');
@@ -143,5 +144,6 @@ client.once('ready', async () => {
 });
 
 client.login(process.env.TOKEN || config.token);
-
+  .then(() => console.log("Discord login called"))
+  .catch(err => console.error("Login error:", err));
 module.exports = client;
